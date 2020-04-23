@@ -1,0 +1,26 @@
+name: Cabal Cache
+description: Caches cabal packages in an S3 bucket
+author: Lars Kuhtz <lakuhtz@gmail.com>
+inputs:
+  bucket:
+    description: Name of the S3 bucket
+    required: true
+  region:
+    description: AWS region of the S3 bucket
+    required: true
+  folder:
+    description: Subfolder in the bucket
+    required: false
+  store_path:
+    description: Path of the local Cabal store
+    required: false
+  aws_access_key_id:
+    description: AWS access key id
+    required: true
+  aws_secret_access_key:
+    description: AWS secret access key
+    required: true
+runs:
+  using: node12
+  main: './index.js'
+  post: './cleanup.js'
