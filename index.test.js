@@ -10,7 +10,7 @@ test('test setup', async () => {
   const tmpDir = tmp.dirSync({ "prefix": "cabal-cache-action-test", "unsafeCleanup": true});
   process.env['INPUT_BUCKET'] = "TODO";
   process.env['INPUT_REGION'] = "us-east-1";
-  process.env['INPUT_AWS_ACCESS_KEY_DI'] = process.env['AWS_ACCESS_KEY_ID'];
+  process.env['INPUT_AWS_ACCESS_KEY_ID'] = process.env['AWS_ACCESS_KEY_ID'];
   process.env['INPUT_AWS_SECRET_ACCESS_KEY'] = process.env['AWS_SECRET_ACCESS_KEY'];
 
   process.env['RUNNER_TOOL_CACHE'] = `${tmpDir.name}/cache`;
