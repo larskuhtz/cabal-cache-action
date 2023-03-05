@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/larskuhtz/cabal-cache-action#readme",
   "dependencies": {
-    "@actions/core": "^v1.2.6",
+    "@actions/core": "^v1.9.1",
     "@actions/exec": "^1.0.4",
     "@actions/tool-cache": "^1.6.1"
   },
