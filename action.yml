@@ -21,6 +21,6 @@ inputs:
     description: AWS secret access key
     required: true
 runs:
-  using: node12
+  using: node16
   main: './index.js'
   post: './cleanup.js'
