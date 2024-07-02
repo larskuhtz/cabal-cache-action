@@ -19,7 +19,7 @@ test('test setup', async () => {
   try {
       await cc.syncFromS3();
   } catch (e) {
-      const expected = `Error: The process '${tmpDir.name}/cache/cabal-cache/1.0.1.8/x64/cabal-cache' failed with exit code 1`
+      const expected = `Error: The process '${tmpDir.name}/cache/cabal-cache/1.0.6.0/${process.arch}/cabal-cache' failed with exit code 1`
       expect(e.toString()).toMatch(expected);
   }
   tmpDir.removeCallback();
@@ -39,7 +39,7 @@ test('test cleanup', async () => {
   try {
       await cc.syncToS3();
   } catch (e) {
-      const expected = `Error: The process '${tmpDir.name}/cache/cabal-cache/1.0.1.8/x64/cabal-cache' failed with exit code 1`
+      const expected = `Error: The process '${tmpDir.name}/cache/cabal-cache/1.0.6.0/${process.arch}/cabal-cache' failed with exit code 1`
       expect(e.toString()).toMatch(expected);
   }
   tmpDir.removeCallback();
