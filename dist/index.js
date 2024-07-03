@@ -59,18 +59,25 @@ function getArgs (cmd) {
   }
 }
 
+const version = "1.1.0.1";
+const repo = "hackage-package-forks/cabal-cache";
+
+function mkUrl(arch, platform) {
+  return `https://github.com/${repo}/releases/download/v${version}/cabal-cache-${arch}-${platform}.tar.gz`
+}
+
 async function installCabalCache() {
   const url = process.platform === 'win32'
-    ? "https://github.com/haskell-works/cabal-cache/releases/download/v1.0.6.0/cabal-cache-x86_64-windows.tar.gz"
+    ? mkUrl("x86_64", "windows")
     : process.platform === 'darwin'
-    ? "https://github.com/haskell-works/cabal-cache/releases/download/v1.0.6.0/cabal-cache-x86_64-darwin.tar.gz"
+    ? mkUrl("arm64", "darwin")
     : process.platform === 'linux'
-    ? "https://github.com/haskell-works/cabal-cache/releases/download/v1.0.6.0/cabal-cache-x86_64-linux.tar.gz"
+    ? mkUrl("x86_64", "linux")
     : undefined;
   if (!url) { throw new Error(`installCabalCache: unsupported platform: ${process.platform}`);}
   const tarPath = await tools.downloadTool(url);
   const tmpPath = await tools.extractTar(tarPath);
-  const cachedPath = await tools.cacheDir(tmpPath, 'cabal-cache', '1.0.6.0');
+  const cachedPath = await tools.cacheDir(tmpPath, 'cabal-cache', version);
   core.addPath(cachedPath);
   return cachedPath;
 }

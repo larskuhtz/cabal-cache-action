@@ -4,6 +4,8 @@ const tmp = require('tmp');
 const path = require('path');
 const cc = require('./lib/cabalCache.js');
 
+const version = "1.1.0.1";
+
 // shows how the runner will run a javascript action with env / stdout protocol
 test('test setup', async () => {
   expect.assertions(1);
@@ -19,7 +21,7 @@ test('test setup', async () => {
   try {
       await cc.syncFromS3();
   } catch (e) {
-      const expected = `Error: The process '${tmpDir.name}/cache/cabal-cache/1.0.6.0/${process.arch}/cabal-cache' failed with exit code 1`
+      const expected = `Error: The process '${tmpDir.name}/cache/cabal-cache/${version}/${process.arch}/cabal-cache' failed with exit code 1`
       expect(e.toString()).toMatch(expected);
   }
   tmpDir.removeCallback();
@@ -39,7 +41,7 @@ test('test cleanup', async () => {
   try {
       await cc.syncToS3();
   } catch (e) {
-      const expected = `Error: The process '${tmpDir.name}/cache/cabal-cache/1.0.6.0/${process.arch}/cabal-cache' failed with exit code 1`
+      const expected = `Error: The process '${tmpDir.name}/cache/cabal-cache/${version}/${process.arch}/cabal-cache' failed with exit code 1`
       expect(e.toString()).toMatch(expected);
   }
   tmpDir.removeCallback();
