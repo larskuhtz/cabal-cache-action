@@ -36,6 +36,7 @@ const path = __nccwpck_require__(1017);
 
 const homedir = (__nccwpck_require__(2037).homedir)();
 
+// FIXME: this is broken for recent GHC and Cabal
 const defaultStorePath = process.platform === 'win32'
     ? path.join(homedir, "AppData", "Roaming", "cabal", "store")
     : path.join(homedir, ".cabal", "store")
@@ -45,7 +46,9 @@ function getArgs (cmd) {
   if (!folder) { folder = ""; }
 
   var storepath = core.getInput('store_path')
-  if (! storepath) { storepath = defaultStorePath; }
+
+  // for now let cabal-cache figure it out (even though it is probably wrong).
+  // if (! storepath) { storepath = defaultStorePath; }
 
   return {
     bucket: core.getInput('bucket'),
@@ -92,7 +95,11 @@ async function runCabalCache(args) {
   const cabalCache = await provideCabalCache();
   process.env['AWS_ACCESS_KEY_ID'] = process.env['INPUT_AWS_ACCESS_KEY_ID'];
   process.env['AWS_SECRET_ACCESS_KEY'] = process.env['INPUT_AWS_SECRET_ACCESS_KEY'];
-  await exec.exec(`${cabalCache} ${args.cmd} --threads 16 --archive-uri ${uri} --region ${args.region} --store-path ${args.storepath}`);
+  if (args.storepath) {
+    await exec.exec(`${cabalCache} ${args.cmd} --threads 16 --archive-uri ${uri} --region ${args.region} --store-path ${args.storepath}`);
+  } else {
+    await exec.exec(`${cabalCache} ${args.cmd} --threads 16 --archive-uri ${uri} --region ${args.region}`);
+  }
 }
 
 module.exports.syncToS3 = async () => runCabalCache(getArgs('sync-to-archive'));
